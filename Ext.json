@@ -1,75 +1,400 @@
 {
 	"About":
 	{
-		"Name": "EDIF Template Object",
-		"Author": "Your Name",
-		"Copyright": "Copyright © 2014 Your Name",
-		"Comment": "A sentence or two to describe your extension,\nwith up to four lines of text.",
-		"URL": "http://www.example.com/",
-		"Help": "Help/My New EDIF Extension/Help.chm",
-		"Identifier": "X&pl"
+		"Name": "Timeline Object",
+		"Author": "Nicholas \"LB\" Braden",
+		"Copyright": "Copyright © 2016 Nicholas \"LB\" Braden",
+		"Comment": "This object allows you to trigger events by name via a timeline that can go forward and backward in time. Events can have values and strings attached, and there can be multiple events (even with the same name) in the same spot along the timeline (thus triggering the same event multiple times, but possibly with different values and strings each time)\nGeneral uses include recording, timed events, delayed events, and general timeline uses, of course.",
+		"URL": "http://www.LB-Stuff.com/MMF2/Extensions/",
+		"Help": "Help/Timeline Object/Help.chm",
+		"Identifier": "TLOJ"
 	},
 
 	"ActionMenu":
 	[
 		"Separator",
-		[0, "Action Example"],
+		[0, "Add Event"],
+		[1, "Set Value in Event"],
+		[2, "Set String in Event"],
 		"Separator",
-		["Sub Menu",
-			[1, "Second Action Example"]
-		],
+		[3, "Copy Event"],
+		[4, "Move Event"],
 		"Separator",
-		[0, "A Disabled Menu Item", true],
+		[5, "Remove Event"],
+		[6, "Remove Position"],
+		[7, "Remove Value from Event"],
+		[8, "Remove String from Event"],
+		"Separator",
+		[9, "Copy Position"],
+		[10, "Move Position"],
+		"Separator",
+		[11, "Set Time"],
+		[12, "Set Time Speed"],
+		[17, "Move to Position"],
+		"Separator",
+		[13, "Enable/Disable Event Triggering"],
+		[18, "Enable/Disable Position Change Triggering"],
+		"Separator",
+		[14, "Load Timeline from String"],
+		"Separator",
+		[15, "Save Timeline to File"],
+		[16, "Load Timeline from File"],
 		"Separator"
 	],
 	"ConditionMenu":
 	[
 		"Separator",
-		[0, "Are two numbers equal?"],
+		[0, "On Event"],
+		[6, "On Position Change"],
+		"Separator",
+		[4, "Position Exists in Timeline"],
+		[5, "Event Type Exists at Position"],
+		[1, "Value Exists in Event"],
+		[2, "String Exists in Event"],
+		"Separator",
+		[3, "On Error"],
 		"Separator"
 	],
 	"ExpressionMenu":
 	[
 		"Separator",
-		[0, "Add two numbers"],
-		[1, "Hello world"],
+		[0, "Get Time"],
+		[1, "Get Time Speed"],
+		"Separator",
+		[2, "Get Current Event Type"],
+		[3, "Get Current Event Index"],
+		"Separator",
+		[4, "Get Number of Events at Position"],
+		[5, "Get Event Type at Position && Index"],
+		"Separator",
+		[6, "Get Value"],
+		[7, "Get String"],
+		["Advanced",
+			[10, "Get Number of Values at Position && Index"],
+			[11, "Get Number of Strings at Position && Index"],
+			"Separator",
+			[12, "Get Value Name by ID at Position && Index"],
+			[13, "Get String Name by ID at Position && Index"],
+		],
+		"Separator",
+		[8, "Get Timeline as String"],
+		"Separator",
+		[9, "Get Error Message"],
 		"Separator"
 	],
 
 	"Actions":
 	[
-		{	"Title": "Action Example with parameter %0",
+		{//0
+			"Title": "Add %1 Event at %0",
 			"Parameters":
 			[
-				["Integer", "Example Parameter"]
+				["Integer", "Position in Timeline"],
+				["String", "Event Type"]
 			]
 		},
-		{	"Title": "Second Action Example"
+		{//1
+			"Title": "Set Value %2 to %3 in Event %1 at %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index (-1 for last)"],
+				["String", "Value Name"],
+				["Float", "Value"]
+			]
+		},
+		{//2
+			"Title": "Set String %2 to %3 in Event %1 at %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index (-1 for last)"],
+				["String", "String Name"],
+				["String", "String"]
+			]
+		},
+		{//3
+			"Title": "Copy Event %1 Position %0 to before %3 Position %2",
+			"Parameters":
+			[
+				["Integer", "Source Position in Timeline"],
+				["Integer", "Source Event Index (-1 for last)"],
+				["Integer", "Target Position in Timeline"],
+				["Integer", "Target Event Index (-1 for end)"]
+			]
+		},
+		{//4
+			"Title": "Move Event %1 Position %0 to before %3 Position %2",
+			"Parameters":
+			[
+				["Integer", "Source Position in Timeline"],
+				["Integer", "Source Event Index (-1 for last)"],
+				["Integer", "Target Position in Timeline"],
+				["Integer", "Target Event Index (-1 for end)"]
+			]
+		},
+		{//5
+			"Title": "Remove Event %1 at %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"]
+			]
+		},
+		{//6
+			"Title": "Remove Position %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"]
+			]
+		},
+		{//7
+			"Title": "Remove Value %2 from %1 at %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index (-1 for last)"],
+				["String", "Value Name"]
+			]
+		},
+		{//8
+			"Title": "Remove String %2 from %1 at %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index (-1 for last)"],
+				["String", "String Name"]
+			]
+		},
+		{//9
+			"Title": "Copy Position %0 onto %1 (Replace = %2)",
+			"Parameters":
+			[
+				["Integer", "Source Position in Timeline"],
+				["Integer", "Target Position in Timeline"],
+				["Integer", "0 = merge, anything else = replace"]
+			]
+		},
+		{//10
+			"Title": "Move Position %0 onto %1 (Replace = %2)",
+			"Parameters":
+			[
+				["Integer", "Source Position in Timeline"],
+				["Integer", "Target Position in Timeline"],
+				["Integer", "0 = merge, anything else = replace"]
+			]
+		},
+		{//11
+			"Title": "Set Time to %0",
+			"Parameters":
+			[
+				["Integer", "Time (whole number)"]
+			]
+		},
+		{//12
+			"Title": "Set Time Speed to %0",
+			"Parameters":
+			[
+				["Integer", "Time Speed (whole number)"]
+			]
+		},
+		{//13
+			"Title": "Allow Event Triggering = %0",
+			"Parameters":
+			[
+				["Integer", "0 = disable, anything else = enable"]
+			]
+		},
+		{//14
+			"Title": "Load Timeline from string %0 (merge = %1)",
+			"Parameters":
+			[
+				["String", "Timeline String"],
+				["Integer", "0 = replace, anything else = merge"]
+			]
+		},
+		{//15
+			"Title": "Save Timeline to file %0",
+			"Parameters":
+			[
+				["Filename", "Timeline file"]
+			]
+		},
+		{//16
+			"Title": "Load Timeline from file %0 (merge = %1)",
+			"Parameters":
+			[
+				["Filename", "Timeline file"],
+				["Integer", "0 = replace, anything else = merge"]
+			]
+		},
+		{//17
+			"Title": "Move to Position %0",
+			"Parameters":
+			[
+				["Integer", "Position"]
+			]
+		},
+		{//18
+			"Title": "Allow Position Change Triggering = %0",
+			"Parameters":
+			[
+				["Integer", "0 = disallow, anything else = allow"]
+			]
 		}
 	],
 	"Conditions":
 	[
-		{	"Title": "%o: Are %0 and %1 equal?",
+		{//0
+			"Title": "%o: On Event %0",
 			"Parameters":
 			[
-				["Integer", "First number"],
-				["Integer", "Second number"]
+				["String", "Event Type"]
 			],
-			"Triggered": false
+			"Triggered": true
+		},
+		{//1
+			"Title": "%o: Value %2 exists in Event %1, Position %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"],
+				["String", "Value Name"]
+			]
+		},
+		{//2
+			"Title": "%o: String %2 exists in Event %1, Position %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"],
+				["String", "String Name"]
+			]
+		},
+		{//3
+			"Title": "%o: On Error",
+			"Triggered": true
+		},
+		{//4
+			"Title": "%o: Position %0 exists",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"]
+			]
+		},
+		{//5
+			"Title": "%o: Event %1 exists at Position %0",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["String", "Event Type"]
+			]
+		},
+		{//6
+			"Title": "%o: On Position change",
+			"Triggered": true
 		}
 	],
 	"Expressions":
 	[
-		{	"Title": "Add(",
+		{//0
+			"Title": "Time(",
+			"Returns": "Integer"
+		},
+		{//1
+			"Title": "TimeSpeed(",
+			"Returns": "Integer"
+		},
+		{//2
+			"Title": "CurrentEventType$(",
+			"Returns": "String"
+		},
+		{//3
+			"Title": "CurrentEventIndex(",
+			"Returns": "Integer"
+		},
+		{//4
+			"Title": "NumEventsAt(",
 			"Returns": "Integer",
 			"Parameters":
 			[
-				["Integer", "First number"],
-				["Integer", "Second number"]
+				["Integer", "Position in Timeline"]
 			]
 		},
-		{	"Title": "HelloWorld$(",
-			"Returns": "Text"
+		{//5
+			"Title": "EventTypeAtIndex$(",
+			"Returns": "String",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"]
+			]
+		},
+		{//6
+			"Title": "ValueAtIndex(",
+			"Returns": "Float",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"],
+				["String", "Value Name"]
+			]
+		},
+		{//7
+			"Title": "StringAtIndex$(",
+			"Returns": "String",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"],
+				["String", "String Name"]
+			]
+		},
+		{//8
+			"Title": "Timeline$(",
+			"Returns": "String"
+		},
+		{//9
+			"Title": "ErrorMessage$(",
+			"Returns": "String"
+		},
+		{//10
+			"Title": "NumValuesAtIndex(",
+			"Returns": "Integer",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"]
+			]
+		},
+		{//11
+			"Title": "NumStringsAtIndex(",
+			"Returns": "Integer",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"]
+			]
+		},
+		{//12
+			"Title": "ValueByIdAtIndex(",
+			"Returns": "Integer",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"],
+				["Integer", "Value Id"]
+			]
+		},
+		{//13
+			"Title": "StringByIdAtIndex(",
+			"Returns": "Integer",
+			"Parameters":
+			[
+				["Integer", "Position in Timeline"],
+				["Integer", "Event Index"],
+				["Integer", "String Id"]
+			]
 		}
 	]
 }

@@ -17,7 +17,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{87325274-EF61-43D2-85A3-FF7CE13EDD69}</ProjectGuid>
     <RootNamespace>Template2015</RootNamespace>
-    <ProjectName>Template</ProjectName>
+    <ProjectName>Timeline</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
