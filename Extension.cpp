@@ -35,13 +35,48 @@ Extension::Extension(RD *rd, SerializedED *SED, createObjectInfo *COB)
 {
 	//Link all your action/condition/expression functions
 	//to their IDs to match the IDs in the JSON here.
-	LinkAction(0, ActionExample);
-	LinkAction(1, SecondActionExample);
+	LinkAction(0, AddEvent);
+	LinkAction(1, SetValue);
+	LinkAction(2, SetString);
+	LinkAction(3, CopyEvent);
+	LinkAction(4, MoveEvent);
+	LinkAction(5, RemoveEvent);
+	LinkAction(6, ClearPosition);
+	LinkAction(7, RemoveValue);
+	LinkAction(8, RemoveString);
+	LinkAction(9, CopyPosition);
+	LinkAction(10, MovePosition);
+	LinkAction(11, SetTime);
+	LinkAction(12, SetTimeSpeed);
+	LinkAction(13, SetEventTriggering);
+	LinkAction(14, LoadTimelineString);
+	LinkAction(15, SaveTimelineFile);
+	LinkAction(16, LoadTimelineFile);
+	LinkAction(17, MoveTime);
+	LinkAction(18, SetPositionTriggering);
 
-	LinkCondition(0, AreTwoNumbersEqual);
+	LinkCondition(0, OnEvent);
+	LinkCondition(1, ValueExists);
+	LinkCondition(2, StringExists);
+	LinkCondition(3, OnError);
+	LinkCondition(4, PositionExists);
+	LinkCondition(5, EventExists);
+	LinkCondition(6, OnTick);
 
-	LinkExpression(0, Add);
-	LinkExpression(1, HelloWorld);
+	LinkExpression(0, Time);
+	LinkExpression(1, TimeSpeed);
+	LinkExpression(2, CurrentEventType);
+	LinkExpression(3, CurrentEventIndex);
+	LinkExpression(4, NumEventsAt);
+	LinkExpression(5, EventTypeAt);
+	LinkExpression(6, Value);
+	LinkExpression(7, String);
+	LinkExpression(8, Timeline);
+	LinkExpression(9, ErrorMessage);
+	LinkExpression(10, NumValuesAt);
+	LinkExpression(11, NumStringsAt);
+	LinkExpression(12, ValueById);
+	LinkExpression(13, StringById);
 
 
 	//This is where you'd do anything you'd do in CreateRunObject in the original SDK.
