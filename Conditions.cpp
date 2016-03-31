@@ -8,7 +8,45 @@
 
 #include "Common.h"
 
-bool Extension::AreTwoNumbersEqual(int First, int Second)
+bool Extension::OnEvent(TCHAR const *type)
 {
-	return First == Second;
+	//
+	return false;
 }
+
+bool Extension::ValueExists(int position, int index, TCHAR const *name)
+{
+	//
+	return false;
+}
+
+bool Extension::StringExists(int position, int index, TCHAR const *name)
+{
+	//
+	return false;
+}
+
+bool Extension::OnError()
+{
+	//
+	return false;
+}
+
+bool Extension::PositionExists(int position)
+{
+	//
+	return false;
+}
+
+bool Extension::EventExists(int position, TCHAR const *type)
+{
+	//
+	return false;
+}
+
+bool Extension::OnTick()
+{
+	//
+	return false;
+}
+

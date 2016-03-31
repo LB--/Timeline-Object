@@ -106,15 +106,50 @@ public:
 	 */
 
 	//Actions - Defined in Actions.cpp
-	void ActionExample(int ExampleParameter);
-	void SecondActionExample();
+	void AddEvent(int position, TCHAR const *type);
+	void SetValue(int position, int index, TCHAR const *name, float value);
+	void SetString(int position, int index, TCHAR const *name, TCHAR const *value);
+	void CopyEvent(int source_position, int source_index, int target_position, int target_index);
+	void MoveEvent(int source_position, int source_index, int target_position, int target_index);
+	void RemoveEvent(int position, int index);
+	void ClearPosition(int position);
+	void RemoveValue(int position, int index, TCHAR const *name);
+	void RemoveString(int position, int index, TCHAR const *name);
+	void CopyPosition(int source_position, int target_position, int replace);
+	void MovePosition(int source_position, int target_position, int replace);
+	void SetTime(int position);
+	void SetTimeSpeed(int speed);
+	void SetEventTriggering(int enabled);
+	void LoadTimelineString(TCHAR const *timeline, int merge);
+	void SaveTimelineFile(TCHAR const *filename);
+	void LoadTimelineFile(TCHAR const *filename, int merge);
+	void MoveTime(int position);
+	void SetPositionTriggering(int enabled);
 
 	//Conditions - Defined in Conditions.cpp
-	bool AreTwoNumbersEqual(int FirstNumber, int SecondNumber);
+	bool OnEvent(TCHAR const *type);
+	bool ValueExists(int position, int index, TCHAR const *name);
+	bool StringExists(int position, int index, TCHAR const *name);
+	bool OnError();
+	bool PositionExists(int position);
+	bool EventExists(int position, TCHAR const *type);
+	bool OnTick();
 
 	//Expressions - Defined in Expressions.cpp
-	int Add(int FirstNumber, int SecondNumber);
-	const TCHAR * HelloWorld();
+	int Time();
+	int TimeSpeed();
+	TCHAR const *CurrentEventType();
+	int CurrentEventIndex();
+	int NumEventsAt(int position);
+	TCHAR const *EventTypeAt(int position, int index);
+	float Value(int position, int index, TCHAR const *name);
+	TCHAR const *String(int position, int index, TCHAR const *name);
+	TCHAR const *Timeline();
+	TCHAR const *ErrorMessage();
+	int NumValuesAt(int position, int index);
+	int NumStringsAt(int position, int index);
+	int ValueById(int position, int index, int id);
+	int StringById(int position, int index, int id);
 
 
 	short Handle();         //defined & documented in Extension.cpp

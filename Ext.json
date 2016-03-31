@@ -21,7 +21,7 @@
 		[4, "Move Event"],
 		"Separator",
 		[5, "Remove Event"],
-		[6, "Remove Position"],
+		[6, "Clear Position"],
 		[7, "Remove Value from Event"],
 		[8, "Remove String from Event"],
 		"Separator",
@@ -142,7 +142,7 @@
 			]
 		},
 		{//6
-			"Title": "Remove Position %0",
+			"Title": "Clear Position %0",
 			"Parameters":
 			[
 				["Integer", "Position in Timeline"]
@@ -246,7 +246,7 @@
 	"Conditions":
 	[
 		{//0
-			"Title": "%o: On Event %0",
+			"Title": "%o: On %0 Event",
 			"Parameters":
 			[
 				["String", "Event Type"]
