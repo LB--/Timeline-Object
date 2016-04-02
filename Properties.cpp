@@ -33,16 +33,20 @@ namespace Prop
 	{
 		zNOT_USED = PROPID_EXTITEM_CUSTOM_FIRST,
 		Version,
-		//MyString,
-		//MyInt,
+		Time,
+		Speed,
+		TriggerEvents,
+		TriggerPositions,
 	};
 }
 
 PropData Properties[] = //See the MMF2SDK help file for information on PropData_ macros.
 {
-	PropData_StaticString(Prop::Version, (UINT_PTR)_T("Version #"), (UINT_PTR)_T("This is the current version of the EDIF Template object.")),
-	//PropData_EditMultiLine(Prop::MyString, (UINT_PTR)_T("My String"), (UINT_PTR)_T("The contents of my string.")),
-	//PropData_EditNumber(Prop::MyInt, (UINT_PTR)_T("My Integer"), (UINT_PTR)_T("The value of my integer.")),
+	PropData_StaticString(Prop::Version, (UINT_PTR)_T("Version #"), (UINT_PTR)_T("This is the current version of the Timeline Object.")),
+	PropData_EditNumber(Prop::Time, (UINT_PTR)_T("Start Time"), (UINT_PTR)_T("Position in the timeline to start at.")),
+	PropData_EditNumber(Prop::Speed, (UINT_PTR)_T("Start Time Speed"), (UINT_PTR)_T("Initial speed for time to move at.")),
+	PropData_CheckBox(Prop::TriggerEvents, (UINT_PTR)_T("Trigger Events"), (UINT_PTR)_T("Trigger events by default - can be changed at runtime")),
+	PropData_CheckBox(Prop::TriggerPositions, (UINT_PTR)_T("Trigger Positions"), (UINT_PTR)_T("Trigger positions by default - can be changed at runtime")),
 	PropData_End()
 };
 
@@ -132,21 +136,21 @@ void MMF2Func ReleasePropCreateParam(mv *mV, SerializedED *SED, UINT PropID, LPA
 void *MMF2Func GetPropValue(mv *mV, SerializedED *SED, UINT PropID)
 {
 #ifndef RUN_ONLY
-	//EditData ed (SED);
+	EditData ed (SED);
 	switch(PropID)
 	{
-	case Prop::Version:
+		case Prop::Version:
 		{
-			return new CPropStringValue(_T("Default.EDIF.Template.0"));
+			return new CPropStringValue(_T("v1.2.0 (April 2016)"));
 		}
-	//case Prop::MyString:
-	//	{
-	//		return new CPropStringValue(ed.MyString.c_str());
-	//	}
-	//case Prop::MyInt:
-	//	{
-	//		return new CPropDWordValue(ed.MyInt);
-	//	}
+		case Prop::Time:
+		{
+			return new CPropDWordValue(ed.time);
+		}
+		case Prop::Speed:
+		{
+			return new CPropDWordValue(ed.speed);
+		}
 	}
 	//if you changed ed:
 	//ed.Serialize(mV, SED);
@@ -163,22 +167,22 @@ void *MMF2Func GetPropValue(mv *mV, SerializedED *SED, UINT PropID)
 void MMF2Func SetPropValue(mv *mV, SerializedED *SED, UINT PropID, CPropValue *PropVal)
 {
 #ifndef RUN_ONLY
-	//EditData ed (SED);
-	//switch(PropID)
-	//{
-	//case Prop::MyString:
-	//	{
-	//		ed.MyString = ((CPropStringValue*)PropVal)->GetString();
-	//		break;
-	//	}
-	//case Prop::MyInt:
-	//	{
-	//		ed.MyInt = (CPropDWordValue*)PropVal)->m_dwValue;
-	//		break;
-	//	}
-	//}
+	EditData ed (SED);
+	switch(PropID)
+	{
+		case Prop::Time:
+		{
+			ed.time = static_cast<std::int32_t>(((CPropDWordValue*)PropVal)->m_dwValue);
+			break;
+		}
+		case Prop::Speed:
+		{
+			ed.speed = static_cast<std::int32_t>(((CPropDWordValue*)PropVal)->m_dwValue);
+			break;
+		}
+	}
 	//since you changed ed:
-	//ed.Serialize(mV, SED);
+	ed.Serialize(mV, SED);
 
 	//You may want to have your object redrawn in the
 	//frame editor after the modifications; in this
@@ -197,14 +201,18 @@ void MMF2Func SetPropValue(mv *mV, SerializedED *SED, UINT PropID, CPropValue *P
 BOOL MMF2Func GetPropCheck(mv *mV, SerializedED *SED, UINT PropID)
 {
 #ifndef RUN_ONLY
-	//EditData ed (SED);
-	//switch(PropID)
-	//{
-	//case Prop::MyCheckBoxPropertyOrPropertyThatHasTheCheckboxOptionSet:
-	//	{
-	//		return ed.WhetherOrNotThatPropertyOfMineIsTicked ? TRUE : FALSE;
-	//	}
-	//}
+	EditData ed (SED);
+	switch(PropID)
+	{
+		case Prop::TriggerEvents:
+		{
+			return ed.trigger_events? TRUE : FALSE;
+		}
+		case Prop::TriggerPositions:
+		{
+			return ed.trigger_events? TRUE : FALSE;
+		}
+	}
 	//if you changed ed:
 	//ed.Serialize(mV, SED);
 #endif
@@ -222,16 +230,22 @@ BOOL MMF2Func GetPropCheck(mv *mV, SerializedED *SED, UINT PropID)
 void MMF2Func SetPropCheck(mv *mV, SerializedED *SED, UINT PropID, BOOL Ticked)
 {
 #ifndef RUN_ONLY
-	//EditData ed (SED);
-	//switch(PropID)
-	//{
-	//case Prop::MyCheckBoxPropertyOrPropertyThatHasTheCheckboxOptionSet:
-	//	{
-	//		ed.WhetherOrNotThatPropertyOfMineIsTicked = Ticked != FALSE ? true : false;
-	//	}
-	//}
+	EditData ed (SED);
+	switch(PropID)
+	{
+		case Prop::TriggerEvents:
+		{
+			ed.trigger_events = (Ticked? true : false);
+			break;
+		}
+		case Prop::TriggerPositions:
+		{
+			ed.trigger_positions = (Ticked? true : false);
+			break;
+		}
+	}
 	//since you changed ed:
-	//ed.Serialize(mV, SED);
+	ed.Serialize(mV, SED);
 #endif
 }
 
@@ -277,7 +291,7 @@ BOOL MMF2Func IsPropEnabled(mv *mV, SerializedED *SED, UINT PropID)
 	{
 	case Prop::Version:
 		{
-			return FALSE; //Makes the version proeprty greyed out
+			return FALSE; //Makes the version property greyed out
 		}
 	//case Prop::MyString:	//intentional\\
 	//case Prop::MyInt:		//fallthrough\\

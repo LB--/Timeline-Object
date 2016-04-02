@@ -82,10 +82,11 @@ Extension::Extension(RD *rd, SerializedED *SED, createObjectInfo *COB)
 	//This is where you'd do anything you'd do in CreateRunObject in the original SDK.
 	//It's the only place you'll get access to the editdata at runtime, so you should
 	//transfer anything from the editdata to the extension class here. For example:
-//	EditData ed (SED);
-//	MyString = ed.MyString;
-//	MyInt = ed.MyInt;
-//	MyArray = ed.MyArray;
+	EditData ed (SED);
+	time = ed.time;
+	speed = ed.speed;
+	trigger_events = ed.trigger_events;
+	trigger_positions = ed.trigger_positions;
 
 	//
 }
@@ -97,10 +98,7 @@ Extension::Extension(RD *rd, SerializedED *SED, createObjectInfo *COB)
  * dynamic memory - in most cases this function
  * won't need any code written.
  */
-Extension::~Extension()
-{
-	//
-}
+Extension::~Extension() = default;
 
 /* Handle
  * MMF2 calls this function to let your extension

@@ -9,7 +9,10 @@
  * access to everything included by it.
  */
 
-class Extension
+#include <map>
+#include <vector>
+
+class Extension final
 {
 public:
 	/* rd
@@ -89,9 +92,21 @@ public:
 	 * store a pointer.
 	 */
 
-	//stdtstring MyString;
-	//int MyInt;
-	//std::vector<float> MyArray;
+	stdtstring error_msg;
+	std::int32_t time, speed;
+	bool trigger_events, trigger_positions;
+	stdtstring current_event;
+	std::int32_t current_event_id;
+
+	struct Event final
+	{
+		stdtstring name;
+		std::map<stdtstring, float> values;
+		std::map<stdtstring, stdtstring> strings;
+	};
+	using Position_t = std::vector<Event>;
+	using Timeline_t = std::map<std::int32_t, Position_t>;
+	Timeline_t timeline;
 
 
 	/* Add your actions, conditions, and expressions

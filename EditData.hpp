@@ -10,15 +10,10 @@
  * start of the runtime.
  */
 
-struct EditData
+struct EditData final
 {
-	/* MyString, MyInt, MyArray_t, MyArray
-	 * Example data
-	 */
-//	stdtstring MyString;
-//	int MyInt;
-//	typedef std::vector<float> MyArray_t;
-//	MyArray_t MyArray;
+	std::int32_t time = 0, speed = 1;
+	bool trigger_events = true, trigger_positions = true;
 
 	/* <default constructor>
 	 * This is where you provide default values for
@@ -26,10 +21,7 @@ struct EditData
 	 * when your extension is first created and
 	 * default values are needed.
 	 */
-	EditData() // : MyString(_T("Hello, world!")), MyInt(1337)
-	{
-		//MyArray.push_back(3.1415926f);
-	}
+	EditData() = default;
 
 	/* <copy constructor>
 	 * As a convenience in other parts of your code,
@@ -37,10 +29,7 @@ struct EditData
 	 * of the EditData class. Make sure you deep-copy
 	 * dynamically allocated memory e.g. with pointers.
 	 */
-	EditData(const EditData &from) // : MyString(from.MyString), MyInt(from.MyInt), MyArray(from.MyArray)
-	{
-		//
-	}
+	EditData(EditData const &) = default;
 
 	/* operator=
 	 * This is essentially the same as the copy
@@ -48,12 +37,7 @@ struct EditData
 	 * with an instance that is already
 	 * constructed.
 	 */
-	EditData &operator=(const EditData &from)
-	{
-//		MyString = from.MyString;
-//		MyInt = from.MyInt;
-//		MyArray = from.MyArray;
-	}
+	EditData &operator=(EditData const &) = default;
 
 #ifndef RUN_ONLY
 	/* Serialize
@@ -69,10 +53,10 @@ struct EditData
 
 		//Write the data you need to save in binary format
 		//(you can use text format, but binary is recommended)
-//		os.write_string(MyString); //works for c-strings too
-//		os.write_value(MyInt); //only works for primitives!
-//		os.write_value(MyArray.size()); //need to know how many to load later
-//		os.write_sequence(MyArray.begin(), MyArray.end()); //works for c-style arrays too
+		os.write_value<std::int32_t>(time);
+		os.write_value<std::int32_t>(speed);
+		os.write_value<std::int32_t>(trigger_events? 1 : 0);
+		os.write_value<std::int32_t>(trigger_positions? 1 : 0);
 
 		//That's it! EDOStream automatically stores the data in your extension's editdata
 		return true; //return false in the event of an error
@@ -91,22 +75,15 @@ struct EditData
 	 */
 	EditData(SerializedED *SED)
 	{
-		if(SED->Header.extVersion == 0) //older version
-		{
-			//code to update from an older version
-		}
-		else if(SED->Header.extVersion == 1) //current version
+		if(SED->Header.extVersion == 0) //current version
 		{
 			//Create an instance of EDIStream, a helper class
 			EDIStream is (SED);
 			//Read back the data in the same format that you stored it above
-//			MyString = is.read_string();
-//			MyInt = is.read_value<int>(); //need to specify the type here
-//			MyArray_t::size_type MyArray_size = is.read_value<MyArray_t::size_type>();
-//			for(MyArray_t::size_type i = 0; i < MyArray_size; ++i)
-//			{
-//				MyArray.push_back(is.read_value<MyArray_t::value_type>());
-//			}
+			time              =  is.read_value<std::int32_t>();
+			speed             =  is.read_value<std::int32_t>();
+			trigger_events    = (is.read_value<std::int32_t>()? true : false);
+			trigger_positions = (is.read_value<std::int32_t>()? true : false);
 		}
 		else //the version is newer than current
 		{
@@ -114,9 +91,9 @@ struct EditData
 			//future self was smart enough to keep the data in
 			//the same format with new data at the end, or
 			//make an error dialog and load some default data.
-//			MessageBox(NULL, _T("The MFA you are trying to load was saved")
-//			                 _T("with a newer version of this extension."),
-//			                 _T("Error Loading My Extension"), MB_OK);
+			MessageBox(NULL, _T("The MFA you are trying to load was saved")
+			                 _T("with a newer version of Timeline Object."),
+			                 _T("Error Loading Timeline Object"), MB_OK);
 		}
 	}
 
@@ -124,8 +101,5 @@ struct EditData
 	 * If you grabbed any memory e.g. with new,
 	 * make sure to e.g. delete it in here.
 	 */
-	~EditData()
-	{
-		//
-	}
+	~EditData() = default;
 };
