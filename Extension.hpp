@@ -100,13 +100,35 @@ public:
 
 	struct Event final
 	{
-		stdtstring name;
+		stdtstring type;
 		std::map<stdtstring, float> values;
 		std::map<stdtstring, stdtstring> strings;
 	};
 	using Position_t = std::vector<Event>;
 	using Timeline_t = std::map<std::int32_t, Position_t>;
 	Timeline_t timeline;
+
+
+	void insert_event(int position, int index, Event e)
+	{
+		auto &pos = timeline.find(position);
+		if(pos == std::end(timeline))
+		{
+			timeline.emplace(position, std::move(e));
+		}
+		else
+		{
+			auto &events = pos->second;
+			if(index >= events.size() || index < 0)
+			{
+				events.emplace_back(std::move(e));
+			}
+			else
+			{
+				events.emplace(std::begin(events)+index, std::move(e));
+			}
+		}
+	}
 
 
 	/* Add your actions, conditions, and expressions

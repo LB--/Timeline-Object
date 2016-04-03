@@ -10,43 +10,75 @@
 
 bool Extension::OnEvent(TCHAR const *type)
 {
-	//
-	return false;
+	return trigger_events && current_event == type;
 }
 
 bool Extension::ValueExists(int position, int index, TCHAR const *name)
 {
-	//
+	auto const &pos = timeline.find(position);
+	if(pos != std::end(timeline))
+	{
+		if(index < pos->second.size())
+		{
+			auto const &values = pos->second[index].values;
+			return values.find(name) != std::end(values);
+		}
+	}
 	return false;
 }
 
 bool Extension::StringExists(int position, int index, TCHAR const *name)
 {
-	//
+	auto const &pos = timeline.find(position);
+	if(pos != std::end(timeline))
+	{
+		if(index < pos->second.size())
+		{
+			auto const &strings = pos->second[index].strings;
+			return strings.find(name) != std::end(strings);
+		}
+	}
 	return false;
 }
 
 bool Extension::OnError()
 {
-	//
-	return false;
+	return true;
 }
 
 bool Extension::PositionExists(int position)
 {
-	//
-	return false;
+	auto const &pos = timeline.find(position);
+	if(pos != std::end(timeline))
+	{
+		if(pos->second.empty()) //shouldn't happen
+		{
+			timeline.erase(pos); //oops
+			return true;
+		}
+		return false;
+	}
+	return true;
 }
 
 bool Extension::EventExists(int position, TCHAR const *type)
 {
-	//
+	auto const &pos = timeline.find(position);
+	if(pos != std::end(timeline))
+	{
+		for(auto const &e : pos->second)
+		{
+			if(e.type == type)
+			{
+				return true;
+			}
+		}
+	}
 	return false;
 }
 
 bool Extension::OnTick()
 {
-	//
-	return false;
+	return true;
 }
 
