@@ -96,7 +96,7 @@ public:
 	std::int32_t time, speed;
 	bool trigger_events, trigger_positions;
 	stdtstring current_event;
-	std::int32_t current_event_id;
+	std::int32_t current_event_index;
 
 	struct Event final
 	{
@@ -111,7 +111,7 @@ public:
 
 	void insert_event(int position, int index, Event e)
 	{
-		auto &pos = timeline.find(position);
+		auto const pos = timeline.find(position);
 		if(pos == std::end(timeline))
 		{
 			timeline.emplace(position, std::move(e));
@@ -130,6 +130,16 @@ public:
 		}
 	}
 
+	static stdtstring escape(stdtstring const &s)
+	{
+		//TODO
+		return s;
+	}
+	static stdtstring unescape(stdtstring const &s)
+	{
+		//TODO
+		return s;
+	}
 
 	/* Add your actions, conditions, and expressions
 	 * as real class member functions here. The arguments
@@ -186,7 +196,7 @@ public:
 	int NumValuesAt(int position, int index);
 	int NumStringsAt(int position, int index);
 	int ValueById(int position, int index, int id);
-	int StringById(int position, int index, int id);
+	TCHAR const *StringById(int position, int index, int id);
 
 
 	short Handle();         //defined & documented in Extension.cpp

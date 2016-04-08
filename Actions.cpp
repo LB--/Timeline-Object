@@ -15,7 +15,7 @@ void Extension::AddEvent(int position, TCHAR const *type)
 
 void Extension::SetValue(int position, int index, TCHAR const *name, float value)
 {
-	auto &pos = timeline.find(position);
+	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
 		if(index < pos->second.size())
@@ -27,7 +27,7 @@ void Extension::SetValue(int position, int index, TCHAR const *name, float value
 
 void Extension::SetString(int position, int index, TCHAR const *name, TCHAR const *value)
 {
-	auto &pos = timeline.find(position);
+	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
 		if(index < pos->second.size())
@@ -39,8 +39,8 @@ void Extension::SetString(int position, int index, TCHAR const *name, TCHAR cons
 
 void Extension::CopyEvent(int source_position, int source_index, int target_position, int target_index)
 {
-	auto const &source_pos = timeline.find(source_position);
-	if(source_pos != std::end(timeline))
+	auto const source_pos = timeline.find(source_position);
+	if(source_pos != std::cend(timeline))
 	{
 		auto const &source_events = source_pos->second;
 		if(source_index < source_events.size() && !source_events.empty())
@@ -59,7 +59,7 @@ void Extension::CopyEvent(int source_position, int source_index, int target_posi
 
 void Extension::MoveEvent(int source_position, int source_index, int target_position, int target_index)
 {
-	auto &source_pos = timeline.find(source_position);
+	auto const source_pos = timeline.find(source_position);
 	if(source_pos != std::end(timeline))
 	{
 		auto &source_events = source_pos->second;
@@ -81,7 +81,7 @@ void Extension::MoveEvent(int source_position, int source_index, int target_posi
 
 void Extension::RemoveEvent(int position, int index)
 {
-	auto &pos = timeline.find(position);
+	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
 		auto &events = pos->second;
@@ -94,7 +94,7 @@ void Extension::RemoveEvent(int position, int index)
 
 void Extension::ClearPosition(int position)
 {
-	auto &pos = timeline.find(position);
+	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
 		timeline.erase(pos);
@@ -103,7 +103,7 @@ void Extension::ClearPosition(int position)
 
 void Extension::RemoveValue(int position, int index, TCHAR const *name)
 {
-	auto &pos = timeline.find(position);
+	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
 		auto &events = pos->second;
@@ -116,7 +116,7 @@ void Extension::RemoveValue(int position, int index, TCHAR const *name)
 
 void Extension::RemoveString(int position, int index, TCHAR const *name)
 {
-	auto &pos = timeline.find(position);
+	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
 		auto &events = pos->second;
@@ -129,11 +129,11 @@ void Extension::RemoveString(int position, int index, TCHAR const *name)
 
 void Extension::CopyPosition(int source_position, int target_position, int replace)
 {
-	auto const &source_pos = timeline.find(source_position);
-	if(source_pos != std::end(timeline))
+	auto const source_pos = timeline.find(source_position);
+	if(source_pos != std::cend(timeline))
 	{
 		auto const &source_events = source_pos->second;
-		auto &target_pos = timeline.find(target_position);
+		auto const target_pos = timeline.find(target_position);
 		if(replace || target_pos == std::end(timeline))
 		{
 			timeline.emplace(target_position, source_events);
@@ -152,11 +152,11 @@ void Extension::CopyPosition(int source_position, int target_position, int repla
 
 void Extension::MovePosition(int source_position, int target_position, int replace)
 {
-	auto &source_pos = timeline.find(source_position);
+	auto const source_pos = timeline.find(source_position);
 	if(source_pos != std::end(timeline))
 	{
 		auto &source_events = source_pos->second;
-		auto &target_pos = timeline.find(target_position);
+		auto const target_pos = timeline.find(target_position);
 		if(replace || target_pos == std::end(timeline))
 		{
 			timeline.emplace(target_position, std::move(source_events));

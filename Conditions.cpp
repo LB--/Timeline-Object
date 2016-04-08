@@ -15,13 +15,13 @@ bool Extension::OnEvent(TCHAR const *type)
 
 bool Extension::ValueExists(int position, int index, TCHAR const *name)
 {
-	auto const &pos = timeline.find(position);
-	if(pos != std::end(timeline))
+	auto const pos = timeline.find(position);
+	if(pos != std::cend(timeline))
 	{
 		if(index < pos->second.size())
 		{
 			auto const &values = pos->second[index].values;
-			return values.find(name) != std::end(values);
+			return values.find(name) != std::cend(values);
 		}
 	}
 	return false;
@@ -29,13 +29,13 @@ bool Extension::ValueExists(int position, int index, TCHAR const *name)
 
 bool Extension::StringExists(int position, int index, TCHAR const *name)
 {
-	auto const &pos = timeline.find(position);
-	if(pos != std::end(timeline))
+	auto const pos = timeline.find(position);
+	if(pos != std::cend(timeline))
 	{
 		if(index < pos->second.size())
 		{
 			auto const &strings = pos->second[index].strings;
-			return strings.find(name) != std::end(strings);
+			return strings.find(name) != std::cend(strings);
 		}
 	}
 	return false;
@@ -48,8 +48,8 @@ bool Extension::OnError()
 
 bool Extension::PositionExists(int position)
 {
-	auto const &pos = timeline.find(position);
-	if(pos != std::end(timeline))
+	auto const pos = timeline.find(position);
+	if(pos != std::cend(timeline))
 	{
 		if(pos->second.empty()) //shouldn't happen
 		{
@@ -63,8 +63,8 @@ bool Extension::PositionExists(int position)
 
 bool Extension::EventExists(int position, TCHAR const *type)
 {
-	auto const &pos = timeline.find(position);
-	if(pos != std::end(timeline))
+	auto const pos = timeline.find(position);
+	if(pos != std::cend(timeline))
 	{
 		for(auto const &e : pos->second)
 		{

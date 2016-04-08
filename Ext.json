@@ -387,8 +387,8 @@
 			]
 		},
 		{//13
-			"Title": "StringByIdAtIndex(",
-			"Returns": "Integer",
+			"Title": "StringByIdAtIndex$(",
+			"Returns": "String",
 			"Parameters":
 			[
 				["Integer", "Position in Timeline"],
