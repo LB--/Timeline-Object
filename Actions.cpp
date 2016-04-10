@@ -18,7 +18,7 @@ void Extension::SetValue(int position, int index, TCHAR const *name, float value
 	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
-		if(index < pos->second.size())
+		if(index >= 0 && static_cast<std::size_t>(index) < pos->second.size())
 		{
 			pos->second[index].values.emplace(name, value);
 		}
@@ -30,7 +30,7 @@ void Extension::SetString(int position, int index, TCHAR const *name, TCHAR cons
 	auto const pos = timeline.find(position);
 	if(pos != std::end(timeline))
 	{
-		if(index < pos->second.size())
+		if(index >= 0 && static_cast<std::size_t>(index) < pos->second.size())
 		{
 			pos->second[index].strings.emplace(name, value);
 		}
@@ -43,13 +43,13 @@ void Extension::CopyEvent(int source_position, int source_index, int target_posi
 	if(source_pos != std::cend(timeline))
 	{
 		auto const &source_events = source_pos->second;
-		if(source_index < source_events.size() && !source_events.empty())
+		if(!source_events.empty())
 		{
 			if(source_index < 0)
 			{
 				insert_event(target_position, target_index, source_events.back());
 			}
-			else
+			else if(static_cast<std::size_t>(source_index) < source_events.size())
 			{
 				insert_event(target_position, target_index, source_events[source_index]);
 			}
@@ -63,14 +63,14 @@ void Extension::MoveEvent(int source_position, int source_index, int target_posi
 	if(source_pos != std::end(timeline))
 	{
 		auto &source_events = source_pos->second;
-		if(source_index < source_events.size() && !source_events.empty())
+		if(!source_events.empty())
 		{
 			if(source_index < 0)
 			{
 				insert_event(target_position, target_index, std::move(source_events.back()));
 				source_events.pop_back();
 			}
-			else
+			else if(static_cast<std::size_t>(source_index) < source_events.size())
 			{
 				insert_event(target_position, target_index, std::move(source_events[source_index]));
 				source_events.erase(std::begin(source_events)+source_index);
@@ -85,7 +85,7 @@ void Extension::RemoveEvent(int position, int index)
 	if(pos != std::end(timeline))
 	{
 		auto &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			events.erase(std::begin(events)+index);
 		}
@@ -107,7 +107,7 @@ void Extension::RemoveValue(int position, int index, TCHAR const *name)
 	if(pos != std::end(timeline))
 	{
 		auto &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			events[index].values.erase(name);
 		}
@@ -120,7 +120,7 @@ void Extension::RemoveString(int position, int index, TCHAR const *name)
 	if(pos != std::end(timeline))
 	{
 		auto &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			events[index].strings.erase(name);
 		}

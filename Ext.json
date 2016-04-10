@@ -378,7 +378,7 @@
 		},
 		{//12
 			"Title": "ValueByIdAtIndex(",
-			"Returns": "Integer",
+			"Returns": "Float",
 			"Parameters":
 			[
 				["Integer", "Position in Timeline"],

@@ -46,7 +46,7 @@ TCHAR const *Extension::EventTypeAt(int position, int index)
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			return Runtime.CopyString(events[index].type.c_str());
 		}
@@ -60,7 +60,7 @@ float Extension::Value(int position, int index, TCHAR const *name)
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			auto const &values = events[index].values;
 			auto const val = values.find(name);
@@ -79,7 +79,7 @@ TCHAR const *Extension::String(int position, int index, TCHAR const *name)
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			auto const &strings = events[index].strings;
 			auto const str = strings.find(name);
@@ -146,7 +146,7 @@ int Extension::NumValuesAt(int position, int index)
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			return events[index].values.size();
 		}
@@ -160,7 +160,7 @@ int Extension::NumStringsAt(int position, int index)
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			return events[index].strings.size();
 		}
@@ -168,16 +168,16 @@ int Extension::NumStringsAt(int position, int index)
 	return 0;
 }
 
-int Extension::ValueById(int position, int index, int id)
+float Extension::ValueById(int position, int index, int id)
 {
 	auto const &pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			auto const &values = events[index].values;
-			if(id < values.size() && id >= 0)
+			if(id >= 0 && static_cast<std::size_t>(id) < values.size())
 			{
 				auto it = std::cbegin(values);
 				std::advance(it, id);
@@ -194,10 +194,10 @@ TCHAR const *Extension::StringById(int position, int index, int id)
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
-		if(index < events.size() && index >= 0)
+		if(index >= 0 && static_cast<std::size_t>(index) < events.size())
 		{
 			auto const &strings = events[index].strings;
-			if(id < strings.size() && id >= 0)
+			if(id >= 0 && static_cast<std::size_t>(id) < strings.size())
 			{
 				auto it = std::cbegin(strings);
 				std::advance(it, id);
@@ -207,4 +207,3 @@ TCHAR const *Extension::StringById(int position, int index, int id)
 	}
 	return _T("");
 }
-

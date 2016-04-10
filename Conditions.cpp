@@ -18,7 +18,7 @@ bool Extension::ValueExists(int position, int index, TCHAR const *name)
 	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
-		if(index < pos->second.size())
+		if(index >= 0 && static_cast<std::size_t>(index) < pos->second.size())
 		{
 			auto const &values = pos->second[index].values;
 			return values.find(name) != std::cend(values);
@@ -32,7 +32,7 @@ bool Extension::StringExists(int position, int index, TCHAR const *name)
 	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
-		if(index < pos->second.size())
+		if(index >= 0 && static_cast<std::size_t>(index) < pos->second.size())
 		{
 			auto const &strings = pos->second[index].strings;
 			return strings.find(name) != std::cend(strings);
@@ -81,4 +81,3 @@ bool Extension::OnTick()
 {
 	return trigger_positions;
 }
-

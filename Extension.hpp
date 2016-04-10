@@ -201,7 +201,7 @@ public:
 	TCHAR const *ErrorMessage();
 	int NumValuesAt(int position, int index);
 	int NumStringsAt(int position, int index);
-	int ValueById(int position, int index, int id);
+	float ValueById(int position, int index, int id);
 	TCHAR const *StringById(int position, int index, int id);
 
 
