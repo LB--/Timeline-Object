@@ -103,6 +103,12 @@ public:
 		stdtstring type;
 		std::map<stdtstring, float> values;
 		std::map<stdtstring, stdtstring> strings;
+
+		Event() = default;
+		Event(stdtstring const &type)
+		: type{type}
+		{
+		}
 	};
 	using Position_t = std::vector<Event>;
 	using Timeline_t = std::map<std::int32_t, Position_t>;
@@ -114,12 +120,12 @@ public:
 		auto const pos = timeline.find(position);
 		if(pos == std::end(timeline))
 		{
-			timeline.emplace(position, std::move(e));
+			timeline.emplace(position, Position_t{std::move(e)});
 		}
 		else
 		{
 			auto &events = pos->second;
-			if(index >= events.size() || index < 0)
+			if(index < 0 || static_cast<std::size_t>(index) >= events.size())
 			{
 				events.emplace_back(std::move(e));
 			}

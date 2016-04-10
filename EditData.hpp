@@ -75,7 +75,7 @@ struct EditData final
 	 */
 	EditData(SerializedED *SED)
 	{
-		if(SED->Header.extVersion == 0) //current version
+		if(SED->Header.extVersion == 1) //current version
 		{
 			//Create an instance of EDIStream, a helper class
 			EDIStream is (SED);

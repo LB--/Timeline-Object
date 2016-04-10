@@ -137,9 +137,8 @@ short Extension::Handle()
 	//copy values that would cause problems if changed during the loops below
 	auto const velocity = this->velocity;
 	auto const speed = std::abs(velocity);
-	auto const direction = speed/velocity;
 
-	for(std::int32_t i = 0; i < speed; ++i, time += direction)
+	for(std::int32_t i = 0; i < speed; ++i, time += speed/velocity)
 	{
 		Runtime.GenerateEvent(6); //OnTick
 
