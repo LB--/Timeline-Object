@@ -47,7 +47,7 @@ Extension::Extension(RD *rd, SerializedED *SED, createObjectInfo *COB)
 	LinkAction(9, CopyPosition);
 	LinkAction(10, MovePosition);
 	LinkAction(11, SetTime);
-	LinkAction(12, SetTimeSpeed);
+	LinkAction(12, SetTimeVelocity);
 	LinkAction(13, SetEventTriggering);
 	LinkAction(14, LoadTimelineString);
 	LinkAction(15, SaveTimelineFile);
@@ -64,7 +64,7 @@ Extension::Extension(RD *rd, SerializedED *SED, createObjectInfo *COB)
 	LinkCondition(6, OnTick);
 
 	LinkExpression(0, Time);
-	LinkExpression(1, TimeSpeed);
+	LinkExpression(1, TimeVelocity);
 	LinkExpression(2, CurrentEventType);
 	LinkExpression(3, CurrentEventIndex);
 	LinkExpression(4, NumEventsAt);
@@ -84,11 +84,9 @@ Extension::Extension(RD *rd, SerializedED *SED, createObjectInfo *COB)
 	//transfer anything from the editdata to the extension class here. For example:
 	EditData ed (SED);
 	time = ed.time;
-	speed = ed.speed;
+	velocity = ed.velocity;
 	trigger_events = ed.trigger_events;
 	trigger_positions = ed.trigger_positions;
-
-	//
 }
 
 /* <destructor>
@@ -136,8 +134,29 @@ short Extension::Handle()
 	At the end of the event loop this code will run.
 	*/
 
-	//Will not be called next loop	
-	return REFLAG_ONESHOT;
+	//copy values that would cause problems if changed during the loops below
+	auto const velocity = this->velocity;
+	auto const speed = std::abs(velocity);
+	auto const direction = speed/velocity;
+
+	for(std::int32_t i = 0; i < speed; ++i, time += direction)
+	{
+		Runtime.GenerateEvent(6); //OnTick
+
+		auto const pos = std::as_const(timeline).find(time);
+		if(pos != std::cend(timeline))
+		{
+			auto const events = pos->second; //copy to avoid problems
+			for(std::size_t i = 0; i < events.size(); ++i)
+			{
+				current_event_type = events[i].type;
+				current_event_index = i;
+				Runtime.GenerateEvent(0); //OnEvent
+			}
+		}
+	}
+
+	return 0;
 }
 
 /* Display

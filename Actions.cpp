@@ -39,7 +39,7 @@ void Extension::SetString(int position, int index, TCHAR const *name, TCHAR cons
 
 void Extension::CopyEvent(int source_position, int source_index, int target_position, int target_index)
 {
-	auto const source_pos = timeline.find(source_position);
+	auto const source_pos = std::as_const(timeline).find(source_position);
 	if(source_pos != std::cend(timeline))
 	{
 		auto const &source_events = source_pos->second;
@@ -129,7 +129,7 @@ void Extension::RemoveString(int position, int index, TCHAR const *name)
 
 void Extension::CopyPosition(int source_position, int target_position, int replace)
 {
-	auto const source_pos = timeline.find(source_position);
+	auto const source_pos = std::as_const(timeline).find(source_position);
 	if(source_pos != std::cend(timeline))
 	{
 		auto const &source_events = source_pos->second;
@@ -179,9 +179,9 @@ void Extension::SetTime(int position)
 	time = position;
 }
 
-void Extension::SetTimeSpeed(int speed)
+void Extension::SetTimeVelocity(int velocity)
 {
-	this->speed = speed;
+	this->velocity = velocity;
 }
 
 void Extension::SetEventTriggering(int enabled)

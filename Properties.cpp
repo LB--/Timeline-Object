@@ -149,7 +149,7 @@ void *MMF2Func GetPropValue(mv *mV, SerializedED *SED, UINT PropID)
 		}
 		case Prop::Speed:
 		{
-			return new CPropDWordValue(ed.speed);
+			return new CPropDWordValue(ed.velocity);
 		}
 	}
 	//if you changed ed:
@@ -177,7 +177,7 @@ void MMF2Func SetPropValue(mv *mV, SerializedED *SED, UINT PropID, CPropValue *P
 		}
 		case Prop::Speed:
 		{
-			ed.speed = static_cast<std::int32_t>(((CPropDWordValue*)PropVal)->m_dwValue);
+			ed.velocity = static_cast<std::int32_t>(((CPropDWordValue*)PropVal)->m_dwValue);
 			break;
 		}
 	}

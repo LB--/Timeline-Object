@@ -29,7 +29,7 @@
 		[10, "Move Position"],
 		"Separator",
 		[11, "Set Time"],
-		[12, "Set Time Speed"],
+		[12, "Set Time Velocity"],
 		[17, "Move to Position"],
 		"Separator",
 		[13, "Enable/Disable Event Triggering"],
@@ -59,7 +59,7 @@
 	[
 		"Separator",
 		[0, "Get Time"],
-		[1, "Get Time Speed"],
+		[1, "Get Time Velocity"],
 		"Separator",
 		[2, "Get Current Event Type"],
 		[3, "Get Current Event Index"],
@@ -192,10 +192,10 @@
 			]
 		},
 		{//12
-			"Title": "Set Time Speed to %0",
+			"Title": "Set Time Velocity to %0",
 			"Parameters":
 			[
-				["Integer", "Time Speed (whole number)"]
+				["Integer", "Time Velocity (whole number)"]
 			]
 		},
 		{//13
@@ -302,7 +302,7 @@
 			"Returns": "Integer"
 		},
 		{//1
-			"Title": "TimeSpeed(",
+			"Title": "TimeVelocity(",
 			"Returns": "Integer"
 		},
 		{//2

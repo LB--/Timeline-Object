@@ -93,9 +93,9 @@ public:
 	 */
 
 	stdtstring error_msg;
-	std::int32_t time, speed;
+	std::int32_t time, velocity;
 	bool trigger_events, trigger_positions;
-	stdtstring current_event;
+	stdtstring current_event_type;
 	std::int32_t current_event_index;
 
 	struct Event final
@@ -165,7 +165,7 @@ public:
 	void CopyPosition(int source_position, int target_position, int replace);
 	void MovePosition(int source_position, int target_position, int replace);
 	void SetTime(int position);
-	void SetTimeSpeed(int speed);
+	void SetTimeVelocity(int velocity);
 	void SetEventTriggering(int enabled);
 	void LoadTimelineString(TCHAR const *timeline, int merge);
 	void SaveTimelineFile(TCHAR const *filename);
@@ -184,7 +184,7 @@ public:
 
 	//Expressions - Defined in Expressions.cpp
 	int Time();
-	int TimeSpeed();
+	int TimeVelocity();
 	TCHAR const *CurrentEventType();
 	int CurrentEventIndex();
 	int NumEventsAt(int position);

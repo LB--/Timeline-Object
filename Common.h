@@ -21,6 +21,7 @@
 #include "Resource.h"
 
 #include <cstdint>
+#include <utility>
 
 /* stdtstring
  * A std::string that knows if you're using

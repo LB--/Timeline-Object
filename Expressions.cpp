@@ -15,14 +15,14 @@ int Extension::Time()
 	return time;
 }
 
-int Extension::TimeSpeed()
+int Extension::TimeVelocity()
 {
-	return speed;
+	return velocity;
 }
 
 TCHAR const *Extension::CurrentEventType()
 {
-	return Runtime.CopyString(current_event.c_str());
+	return Runtime.CopyString(current_event_type.c_str());
 }
 
 int Extension::CurrentEventIndex()
@@ -32,7 +32,7 @@ int Extension::CurrentEventIndex()
 
 int Extension::NumEventsAt(int position)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		return pos->second.size();
@@ -42,7 +42,7 @@ int Extension::NumEventsAt(int position)
 
 TCHAR const *Extension::EventTypeAt(int position, int index)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
@@ -56,7 +56,7 @@ TCHAR const *Extension::EventTypeAt(int position, int index)
 
 float Extension::Value(int position, int index, TCHAR const *name)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
@@ -75,7 +75,7 @@ float Extension::Value(int position, int index, TCHAR const *name)
 
 TCHAR const *Extension::String(int position, int index, TCHAR const *name)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
@@ -142,7 +142,7 @@ TCHAR const *Extension::ErrorMessage()
 
 int Extension::NumValuesAt(int position, int index)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
@@ -156,7 +156,7 @@ int Extension::NumValuesAt(int position, int index)
 
 int Extension::NumStringsAt(int position, int index)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
@@ -170,7 +170,7 @@ int Extension::NumStringsAt(int position, int index)
 
 int Extension::ValueById(int position, int index, int id)
 {
-	auto const &pos = timeline.find(position);
+	auto const &pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;
@@ -190,7 +190,7 @@ int Extension::ValueById(int position, int index, int id)
 
 TCHAR const *Extension::StringById(int position, int index, int id)
 {
-	auto const &pos = timeline.find(position);
+	auto const &pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		auto const &events = pos->second;

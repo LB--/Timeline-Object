@@ -12,7 +12,7 @@
 
 struct EditData final
 {
-	std::int32_t time = 0, speed = 1;
+	std::int32_t time = 0, velocity = 1;
 	bool trigger_events = true, trigger_positions = true;
 
 	/* <default constructor>
@@ -54,7 +54,7 @@ struct EditData final
 		//Write the data you need to save in binary format
 		//(you can use text format, but binary is recommended)
 		os.write_value<std::int32_t>(time);
-		os.write_value<std::int32_t>(speed);
+		os.write_value<std::int32_t>(velocity);
 		os.write_value<std::int32_t>(trigger_events? 1 : 0);
 		os.write_value<std::int32_t>(trigger_positions? 1 : 0);
 
@@ -81,7 +81,7 @@ struct EditData final
 			EDIStream is (SED);
 			//Read back the data in the same format that you stored it above
 			time              =  is.read_value<std::int32_t>();
-			speed             =  is.read_value<std::int32_t>();
+			velocity          =  is.read_value<std::int32_t>();
 			trigger_events    = (is.read_value<std::int32_t>()? true : false);
 			trigger_positions = (is.read_value<std::int32_t>()? true : false);
 		}

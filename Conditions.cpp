@@ -10,12 +10,12 @@
 
 bool Extension::OnEvent(TCHAR const *type)
 {
-	return trigger_events && current_event == type;
+	return trigger_events && current_event_type == type;
 }
 
 bool Extension::ValueExists(int position, int index, TCHAR const *name)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		if(index < pos->second.size())
@@ -29,7 +29,7 @@ bool Extension::ValueExists(int position, int index, TCHAR const *name)
 
 bool Extension::StringExists(int position, int index, TCHAR const *name)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		if(index < pos->second.size())
@@ -48,7 +48,7 @@ bool Extension::OnError()
 
 bool Extension::PositionExists(int position)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		if(pos->second.empty()) //shouldn't happen
@@ -63,7 +63,7 @@ bool Extension::PositionExists(int position)
 
 bool Extension::EventExists(int position, TCHAR const *type)
 {
-	auto const pos = timeline.find(position);
+	auto const pos = std::as_const(timeline).find(position);
 	if(pos != std::cend(timeline))
 	{
 		for(auto const &e : pos->second)
@@ -79,6 +79,6 @@ bool Extension::EventExists(int position, TCHAR const *type)
 
 bool Extension::OnTick()
 {
-	return true;
+	return trigger_positions;
 }
 
