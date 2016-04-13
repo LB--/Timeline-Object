@@ -134,11 +134,16 @@ short Extension::Handle()
 	At the end of the event loop this code will run.
 	*/
 
-	//copy values that would cause problems if changed during the loops below
-	auto const velocity = this->velocity;
-	auto const speed = std::abs(velocity);
+	move_time(velocity);
 
-	for(std::int32_t i = 0; i < speed; ++i, time += speed/velocity)
+	return 0;
+}
+
+void Extension::move_time(int delta)
+{
+	auto const speed = std::abs(delta);
+
+	for(std::int32_t i = 0; i < speed; ++i, time += speed/delta)
 	{
 		Runtime.GenerateEvent(6); //OnTick
 
@@ -154,8 +159,6 @@ short Extension::Handle()
 			}
 		}
 	}
-
-	return 0;
 }
 
 /* Display

@@ -136,6 +136,8 @@ public:
 		}
 	}
 
+	void move_time(int delta);
+
 	static stdtstring escape(stdtstring const &s)
 	{
 		//TODO

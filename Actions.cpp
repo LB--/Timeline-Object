@@ -206,7 +206,7 @@ void Extension::LoadTimelineFile(TCHAR const *filename, int merge)
 
 void Extension::MoveTime(int position)
 {
-	//
+	move_time(position - time);
 }
 
 void Extension::SetPositionTriggering(int enabled)
